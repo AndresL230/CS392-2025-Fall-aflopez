@@ -25,7 +25,7 @@ public class Payroll {
             current_size+=1;
         }
         else{
-            Employee[] p = new Employee[maximum_size*2]
+            Employee[] p = new Employee[maximum_size*2];
             for (int i = 0; i < current_size; i++){
                 p[i] = people[i];
             }
