@@ -44,6 +44,7 @@ public class Payroll {
             for(int j = i; j < current_size - 1; j++){
                 people[j] = people[j+1];
             }
+            people[current_size - 1] = null;
             current_size-=1;
         }
     }
