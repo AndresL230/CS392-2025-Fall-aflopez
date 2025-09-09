@@ -14,33 +14,34 @@ public class Payroll {
     }
 
     public void print(){
-        for (Employee e: people){
-            System.out.println("ID: "+e.ID+", Name: "+e.name+", Salary: "+e.salary);
+        for (int i = 0; i < current_size; i++){
+            System.out.println("ID: "+people[i].ID+", Name: "+people[i].name+", Salary: "+people[i].salary);
         }
     }
     
     public void add_employee(Employee newbie) {
         if (current_size < maximum_size){
-            people[current_size+1] = newbie;
+            people[current_size] = newbie;
             current_size+=1;
         }
         else{
-            Employee[] p = new Employee[maximum_size*2];
+            maximum_size*=2;
+            Employee[] p = new Employee[maximum_size];
             for (int i = 0; i < current_size; i++){
                 p[i] = people[i];
             }
             people = p;
-            people[current_size+1] = newbie;
+            people[current_size] = newbie;
             current_size+=1;
         }
     }
 
     public void remove_employee(int i) throws EmployeeIndexException {
-        if(i >= current_size || i == 0){
+        if(i >= current_size || i < 0){
             throw new EmployeeIndexException();
         }
         else{
-            for(int j = i; j < current_size; j++){
+            for(int j = i; j < current_size - 1; j++){
                 people[j] = people[j+1];
             }
             current_size-=1;
@@ -67,14 +68,15 @@ public class Payroll {
             people = p;
         }
         else{
-            for(int i = current_size; i < source.current_size; i++)
-                people[i] = source.people[i];
+            for(int i = 0; i < source.current_size; i++)
+                people[current_size + i] = source.people[i];
             
         }
         current_size = size;
     }
 
     public void copy_payroll(Payroll source) {
+        current_size = 0;
         add_payroll(source);
     }
 

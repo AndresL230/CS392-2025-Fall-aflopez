@@ -77,7 +77,7 @@ public class TestPayroll {
             emps1.remove_employee(2);
         }
         catch(EmployeeIndexException e){
-            System.out.println("No entry at index 2 not found");
+            System.out.println("Entry at index 2 not found");
         }
 
         emps1.print();
