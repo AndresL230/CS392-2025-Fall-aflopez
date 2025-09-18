@@ -8,6 +8,14 @@ public class Assign02_01 {
       operations here. In particular, NO BIT-WISE OPERATIONS ARE ALLOWED.
      */
     public void main(String[] argv) {
-	// Please give your implementation here
+        int bitCount = 1;
+        int maxInt = 1;
+        
+        while (maxInt <= Integer.MAX_VALUE / 2) {
+            maxInt *= 2;
+            bitCount++;
+        }
+
+        System.out.println(bitCount);
     }
 }
