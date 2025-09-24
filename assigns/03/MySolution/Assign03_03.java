@@ -1,3 +1,5 @@
+import Library.MyStack.*;
+
 public class Assign03_03<T> extends MyQueueBase<T> {
 
     int nitm = -1;
@@ -19,14 +21,30 @@ public class Assign03_03<T> extends MyQueueBase<T> {
     }
 
     public T top$raw() {
-	// HX: Please implement
+	if (frnt.isEmpty() && !rear.isEmpty()) {
+	    transferRearToFront();
+	}
+	return frnt.top$raw();
     }
 
     public T deque$raw() {
-	// HX: Please implement
+	if (frnt.isEmpty() && !rear.isEmpty()) {
+	    transferRearToFront();
+	}
+	T item = frnt.pop$raw();
+	nitm -= 1;
+	return item;
     }
 
     public void enque$raw(T itm) {
-	// HX: Please implement
+	rear.push$raw(itm);
+	nitm += 1;
+    }
+    
+    private void transferRearToFront() {
+	while (!rear.isEmpty()) {
+	    T item = rear.pop$raw();
+	    frnt.push$raw(item);
+	}
     }
 }
