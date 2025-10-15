@@ -1,5 +1,10 @@
 package Library.MyQueue;
 
+import Library.FnList.*;
+import Library.MyRefer.*;
+import java.util.function.Consumer;
+import java.util.function.BiConsumer;
+
 public abstract class MyQueueBase<T> implements MyQueue<T> {
 //
     public
@@ -52,4 +57,28 @@ public abstract class MyQueueBase<T> implements MyQueue<T> {
 	System.out.print(")");
     }
 //
-}
+    public void rforitm
+	(Consumer<? super T> work) {
+        final
+	MyRefer<FnList<T>> itms =
+	    new MyRefer<FnList<T>>(new FnList<T>());
+	foritm(
+	  itm ->
+	  itms.set$raw(new FnList<T>(itm, itms.get$raw()))
+        ); // end of [foritm]
+	(itms.get$raw()).foritm(work);
+    }
+//
+    public void irforitm
+	(BiConsumer<Integer, ? super T> work) {
+        final
+	MyRefer<FnList<T>> itms =
+	    new MyRefer<FnList<T>>(new FnList<T>());
+	foritm(
+	  itm ->
+	  itms.set$raw(new FnList<T>(itm, itms.get$raw()))
+        ); // end of [foritm]
+	(itms.get$raw()).iforitm(work);
+    }
+//
+} // end of [public abstract class MyQueueBase<T>{...}]

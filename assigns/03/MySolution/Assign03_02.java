@@ -1,3 +1,36 @@
+class MyStackList<T> {
+    private class Node {
+        T item;
+        Node next;
+        Node(T item, Node next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    private Node top = null;
+    private int size = 0;
+
+    public void push$exn(T item) {
+        top = new Node(item, top);
+        size++;
+    }
+
+    public T pop$exn() {
+        if (isEmpty()) {
+            throw new RuntimeException("Stack is empty");
+        }
+        T item = top.item;
+        top = top.next;
+        size--;
+        return item;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+}
+
 public class Assign03_02 {
     static boolean balencedq(String text) {
 	//

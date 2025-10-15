@@ -17,19 +17,21 @@ public class Assign03_01 {
 	    return f91(f91(n+11));
     }
     */
-    static int f91TailRecursive(int n, int count) {
+    static int f91_helper(int n, int count) {
         if (count == 0)
             return n;
-        
+
         if (n > 100)
-            return f91TailRecursive(n - 10, count - 1);
+            return f91_helper(n - 10, count - 1);
         else
-            return f91TailRecursive(n + 11, count + 1);
+            return f91_helper(n + 11, count + 1);
+    }
+
+    static int f91(int n) {
+        return f91_helper(n, 1);
     }
 
     public static void main(String[] args) {
-        System.out.println(f91(1100));
-        
         System.out.println("f91(95) = " + f91(95));
         System.out.println("f91(101) = " + f91(101));
         System.out.println("f91(102) = " + f91(102));
