@@ -12,53 +12,51 @@ import java.util.function.ToIntBiFunction;
 
 public class Assign05_02 {
 
-    public static
-	<T extends Comparable<T>>
-	FnList<T> insertSort(FnList<T> xs) {
-	return insertSort(xs, (x1, x2) -> x1.compareTo(x2));
+    public static<T extends Comparable<T>>FnList<T> insertSort(FnList<T> xs) {
+		return insertSort(xs, (x1, x2) -> x1.compareTo(x2));
     }
 //
-    public static<T>
-	FnList<T>
-	insertSort(FnList<T> xs, ToIntBiFunction<T,T> cmp) {
+    public static<T>FnList<T>insertSort(FnList<T> xs, ToIntBiFunction<T,T> cmp) {
 	// HX-2025-10-08: Please implement this method
 	// Loop-based implementation to avoid stack overflow
 	// Using an array-based approach for efficiency with large lists
 
-	int n = xs.length();
-	if (n <= 1) return xs;
+		int n = xs.length();
+		if (n <= 1)
+			return xs;
 
-	// Convert list to array for efficient random access
-	@SuppressWarnings("unchecked")
-	T[] arr = (T[]) new Object[n];
+		// Convert list to array for efficient random access
+		@SuppressWarnings("unchecked")
+		T[] arr = (T[]) new Object[n];
 
-	int idx = 0;
-	while (!nilq(xs)) {
-	    arr[idx++] = xs.hd();
-	    xs = xs.tl();
-	}
+		int idx = 0;
+		while (!nilq(xs)) {
+			arr[idx++] = xs.hd();
+			xs = xs.tl();
+		}
 
-	// Perform insertion sort on the array
-	for (int i = 1; i < n; i++) {
-	    T key = arr[i];
-	    int j = i - 1;
+		// Perform insertion sort on the array
+		for (int i = 1; i < n; i++) {
+			T key = arr[i];
+			int j = i - 1;
 
-	    // Move elements greater than key one position ahead
-	    // Use <= 0 for stability (equal elements maintain order)
-	    while (j >= 0 && cmp.applyAsInt(arr[j], key) > 0) {
-		arr[j + 1] = arr[j];
-		j--;
-	    }
-	    arr[j + 1] = key;
-	}
+			// Move elements greater than key one position ahead
+			// Use <= 0 for stability (equal elements maintain order)
+			while (j >= 0 && cmp.applyAsInt(arr[j], key) > 0) {
+				arr[j + 1] = arr[j];
+				j--;
+			}
+			
+			arr[j + 1] = key;
+		}
 
-	// Convert array back to list
-	FnList<T> result = nil();
-	for (int i = n - 1; i >= 0; i--) {
-	    result = cons(arr[i], result);
-	}
+		// Convert array back to list
+		FnList<T> result = nil();
+		for (int i = n - 1; i >= 0; i--) {
+			result = cons(arr[i], result);
+		}
 
-	return result;
+		return result;
     }
 
     public static void main(String[] args) {
