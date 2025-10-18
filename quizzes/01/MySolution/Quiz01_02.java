@@ -8,21 +8,41 @@ import java.util.function.Consumer;
 // you understand the meaning of this one.
 //
 public class Quiz01_02 {
-    public static
-	FnList<Character>
-	thirdOrderFun
-	(Consumer<Consumer<Character>> ffcs) {
+    public static FnList<Character>thirdOrderFun(Consumer<Consumer<Character>> ffcs) {
 	// HX: Given a consumer of consumers of characters,
 	// thirdOrderFun returns a string cs.
 	// Given fcs = (ch) -> System.out.print(ch),
 	// which is of the type Consumer<Character>,
 	// ffcs.accept(fcs) and cs.foritm(fcs) should behave
 	// the same.
-	return new FnList<Character>();
+		MyRefer<FnList<Character>> rf = new MyRefer<FnList<Character>>(new FnList<Character>());
+
+		Consumer<Character> capturingConsumer = (ch) -> {
+			rf.set$raw(new FnList<Character>(ch, rf.get$raw()));
+		};
+
+		ffcs.accept(capturingConsumer);
+
+		return rf.get$raw().reverse();
     }
+
     public static void main (String[] args) {
 	// HX-2025-10-12:
 	// Please write minimal testing code for thirdOrderFun.
-	return /*void*/;
+		Consumer<Consumer<Character>> testConsumer = (fcs) -> {
+			fcs.accept('H');
+			fcs.accept('e');
+			fcs.accept('l');
+			fcs.accept('l');
+			fcs.accept('o');
+		};
+
+		FnList<Character> result = thirdOrderFun(testConsumer);
+
+		System.out.print("Testing thirdOrderFun: ");
+		result.foritm((ch) -> System.out.print(ch));
+		System.out.println();
+
+		return /*void*/;
     }
 }
