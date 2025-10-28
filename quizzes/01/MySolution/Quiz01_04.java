@@ -2,6 +2,7 @@
 // HX: 40 points
 //
 import Library.LnList.*;
+import Library.FnA1sz.*;
 // Please see Library/LnList for LnList.java
 public class Quiz01_04 {
     public static<T extends Comparable<T>>LnList<T> LnListInsertSort(LnList<T> xs) {
@@ -11,46 +12,42 @@ public class Quiz01_04 {
 	// Note that you are not allowed to modify the definition
 	// of the LnList class. You can only use the public methods
 	// provided by the LnList class
-	LnList<T> sorted = new LnList<T>();
+	LnList<T> sorted = xs.tl1();
+	sorted.free();
 
 	while (xs.consq1()) {
-	    T current = xs.hd1();
-	    xs = xs.tl1();
+	    LnList<T> current = xs;
+	    xs = xs.unlink();
 
-	    if (sorted.nilq1())
-			sorted = new LnList<T>(current, new LnList<T>());
-	    else if (current.compareTo(sorted.hd1()) < 0) 
-			sorted = new LnList<T>(current, sorted);
-	    else {
-			LnList<T> temp = new LnList<T>();
-			boolean inserted = false;
+	    if (sorted.nilq1()) {
+		sorted = current;
+	    } else if (current.hd1().compareTo(sorted.hd1()) < 0) {
+		current.link(sorted);
+		sorted = current;
+	    } else {
+		LnList<T> prev = sorted;
+		LnList<T> curr = prev.tl1();
 
-			while (sorted.consq1()) {
-				T sortedItem = sorted.hd1();
-				sorted = sorted.tl1();
+		while (curr.consq1() && current.hd1().compareTo(curr.hd1()) >= 0) {
+		    prev = curr;
+		    curr = curr.tl1();
+		}
 
-				if (!inserted && (sorted.nilq1() || current.compareTo(sorted.hd1()) < 0)) {
-					temp.append1(new LnList<T>(sortedItem, new LnList<T>()));
-					temp.append1(new LnList<T>(current, new LnList<T>()));
-					inserted = true;
-				} else
-					temp.append1(new LnList<T>(sortedItem, new LnList<T>()));
-			}
-
-			sorted = temp;
+		LnList<T> rest = prev.unlink();
+		prev.link(current);
+		current.link(rest);
 	    }
 	}
 
 	return sorted;
     }
-    public static int main (String[] args) {
+    public static void main (String[] args) {
 	// HX-2025-10-12:
 	// Please write minimal testing code for LnListInsertSort
-		LnList<Integer> test = new LnList<Integer>(3, new LnList<Integer>(1, new LnList<Integer>(2, new LnList<Integer>())));
+		Integer[] testArr = {3, 1, 2};
+		LnList<Integer> test = new LnList<Integer>(new FnA1sz<Integer>(testArr));
 		LnList<Integer> sorted = LnListInsertSort(test);
 		sorted.System$out$print1();
 		System.out.println();
-
-		return 0;
     }
 }

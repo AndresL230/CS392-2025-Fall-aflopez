@@ -13,32 +13,49 @@ public class Quiz01_05 {
 	// provided by the LnList class
 		if (xs.nilq1())
 			return xs;
-		
-		T pivot = xs.hd1();
-		LnList<T> rest = xs.tl1();
-		LnList<T> smaller = new LnList<T>();
-		LnList<T> greaterOrEqual = new LnList<T>();
-		
-		rest.foritm1((item) -> {
-			if (item.compareTo(pivot) < 0)
-				smaller.append1(new LnList<T>(item, new LnList<T>()));
-			else
-				greaterOrEqual.append1(new LnList<T>(item, new LnList<T>()));	
-		});
 
-		LnList<T> sortedSmaller = LnListQuickSort(smaller);
-		LnList<T> sortedGreater = LnListQuickSort(greaterOrEqual);
-		LnList<T> result = sortedSmaller;
-		result.append1(new LnList<T>(pivot, new LnList<T>()));
-		result.append1(sortedGreater);
-		
-		return result;
+		LnList<T> pivotNode = xs;
+		LnList<T> rest = xs.unlink();
+
+		LnList<T> smallerHead = null;
+		LnList<T> greaterHead = null;
+
+		while (rest.consq1()) {
+			LnList<T> current = rest;
+			rest = rest.unlink();
+
+			if (current.hd1().compareTo(pivotNode.hd1()) < 0) {
+				if (smallerHead == null) {
+					smallerHead = current;
+				} else {
+					current.link(smallerHead);
+					smallerHead = current;
+				}
+			} else {
+				if (greaterHead == null) {
+					greaterHead = current;
+				} else {
+					current.link(greaterHead);
+					greaterHead = current;
+				}
+			}
+		}
+
+		LnList<T> emptyList = rest;
+
+		LnList<T> sortedSmaller = (smallerHead != null) ? LnListQuickSort(smallerHead) : emptyList;
+		LnList<T> sortedGreater = (greaterHead != null) ? LnListQuickSort(greaterHead) : emptyList;
+
+		pivotNode.link(sortedGreater);
+		sortedSmaller.append1(pivotNode);
+
+		return sortedSmaller;
     }
-    public static int main (String[] args) {
+    public static void main (String[] args) {
 	// HX-2025-10-12:
 	// Please write minimal testing code for LnListQuickSort
 		LnList<Integer> test = new LnList<Integer>(new FnA1sz<Integer>(new Integer[]{5, 2, 8, 1, 9}));
 		LnListQuickSort(test).System$out$print1();
-		return 0;
+		System.out.println();
     }
 }
