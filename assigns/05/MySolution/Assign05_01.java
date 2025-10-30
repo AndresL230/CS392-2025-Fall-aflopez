@@ -75,7 +75,6 @@ public class Assign05_01 {
 		FnList<Integer> randomList = rand$int$make(1000000);
 
 		FnList<Integer> sortedList = mergeSort(randomList);
-		System.out.println("Sort time: " + (endSort - startSort) + " ms");
 
 		System.out.println("Verifying the list is sorted...");
 		boolean isSorted = orderedq(sortedList);
