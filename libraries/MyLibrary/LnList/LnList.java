@@ -72,12 +72,28 @@ public class LnList<T> {
     public boolean consq1() {
 	return (root != null);
     }
-
+//
     public T hd1() {
 	return root.head;
     }
+    public LnList<T> tl1() {
+        Node tail = root.tail;
+	return new LnList(tail);
+    }
     public LnList<T> tl0() {
-	root = root.tail; return this;
+	Node tail = root.tail;
+	root = null;
+	return new LnList(tail);
+    }
+//
+    public void
+	link1(LnList<T> tail) {
+	assert(root.tail==null);
+	root.tail = tail.root; return /*void*/;
+    }
+    public LnList<T> unlink1() {
+	Node tail = root.tail;
+	root.tail = null; return new LnList(tail);
     }
 //
     public int length1() {

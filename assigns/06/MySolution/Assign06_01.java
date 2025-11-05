@@ -10,81 +10,73 @@ import java.util.function.ToIntBiFunction;
 
 public class Assign06_01 {
 //
-    public static<T>LnStrm<T> mergeLnStrm(LnStrm<LnStrm<T>> fxss, ToIntBiFunction<T,T> cmpr) {
-	return new LnStrm<T>(() -> mergeLnStrmHelper(fxss, cmpr));
+    public static<T>
+	LnStrm<T> mergeLnStrm(LnStrm<LnStrm<T>> fxss, ToIntBiFunction<T,T> cmpr) {
+	return new LnStrm<T>(() -> {
+	    LnStcn<LnStrm<T>> cell = fxss.eval0();
+
+	    if (cell.nilq()) {
+		return new LnStcn<T>();
+	    }
+
+	    LnStrm<T> firstStream = cell.head;
+	    LnStcn<T> firstCell = firstStream.eval0();
+
+	    if (firstCell.nilq()) {
+		return mergeLnStrm(cell.tail, cmpr).eval0();
+	    }
+
+	    T head = firstCell.head;
+	    LnStrm<LnStrm<T>> restStreams = insertStream(firstCell.tail, cell.tail, cmpr);
+
+	    return new LnStcn<T>(head, mergeLnStrm(restStreams, cmpr));
+	});
     }
 
     private static<T>
-	LnStcn<T> mergeLnStrmHelper(LnStrm<LnStrm<T>> fxss, ToIntBiFunction<T,T> cmpr) {
-	LnStcn<LnStrm<T>> stcn = fxss.eval0();
-
-	if (stcn.nilq()) {
-	    return new LnStcn<T>();
-	}
-
-	java.util.PriorityQueue<StreamHead<T>> minHeap =
-	    new java.util.PriorityQueue<>((a, b) -> cmpr.applyAsInt(a.value, b.value));
-
-	LnStcn<LnStrm<T>> current = stcn;
-	while (current.consq()) {
-	    LnStrm<T> stream = current.head;
-	    LnStcn<T> streamCon = stream.eval0();
-
-	    if (streamCon.consq()) {
-		minHeap.offer(new StreamHead<T>(streamCon.head, streamCon.tail));
-	    }
-
-	    if (current.tail != null) {
-		current = current.tail.eval0();
-	    } else {
-		break;
-	    }
-	}
-
-	if (minHeap.isEmpty()) {
-	    return new LnStcn<T>();
-	}
-
-	StreamHead<T> min = minHeap.poll();
-	T minValue = min.value;
-
-	if (min.tail != null) {
-	    LnStcn<T> nextInStream = min.tail.eval0();
-	    if (nextInStream.consq()) {
-		minHeap.offer(new StreamHead<T>(nextInStream.head, nextInStream.tail));
-	    }
-	}
-
-	LnStrm<LnStrm<T>> remainingStreams = heapToStreamOfStreams(minHeap);
-
-	return new LnStcn<T>(minValue, mergeLnStrm(remainingStreams, cmpr));
-    }
-
-    private static class StreamHead<T> {
-	T value;
-	LnStrm<T> tail;
-
-	StreamHead(T value, LnStrm<T> tail) {
-	    this.value = value;
-	    this.tail = tail;
-	}
-    }
-
-    private static<T>
-	LnStrm<LnStrm<T>> heapToStreamOfStreams(java.util.PriorityQueue<StreamHead<T>> heap) {
-	if (heap.isEmpty()) {
-	    return new LnStrm<LnStrm<T>>(() -> new LnStcn<LnStrm<T>>());
-	}
-
+	LnStrm<LnStrm<T>> insertStream(LnStrm<T> stream, LnStrm<LnStrm<T>> streams, ToIntBiFunction<T,T> cmpr) {
 	return new LnStrm<LnStrm<T>>(() -> {
-	    if (heap.isEmpty()) {
-		return new LnStcn<LnStrm<T>>();
+	    LnStcn<T> streamCell = stream.eval0();
+
+	    if (streamCell.nilq()) {
+		return streams.eval0();
 	    }
 
-	    StreamHead<T> head = heap.poll();
-	    LnStrm<T> stream = new LnStrm<T>(() -> new LnStcn<T>(head.value, head.tail));
+	    LnStcn<LnStrm<T>> streamsCell = streams.eval0();
 
-	    return new LnStcn<LnStrm<T>>(stream, heapToStreamOfStreams(heap));
+	    if (streamsCell.nilq()) {
+		return new LnStcn<LnStrm<T>>(
+		    new LnStrm<T>(() -> streamCell),
+		    new LnStrm<LnStrm<T>>(() -> new LnStcn<LnStrm<T>>())
+		);
+	    }
+
+	    LnStrm<T> nextStream = streamsCell.head;
+	    LnStcn<T> nextCell = nextStream.eval0();
+
+	    if (nextCell.nilq()) {
+		return new LnStcn<LnStrm<T>>(
+		    new LnStrm<T>(() -> streamCell),
+		    streamsCell.tail
+		);
+	    }
+
+	    int comparison = cmpr.applyAsInt(streamCell.head, nextCell.head);
+
+	    if (comparison <= 0) {
+		return new LnStcn<LnStrm<T>>(
+		    new LnStrm<T>(() -> streamCell),
+		    new LnStrm<LnStrm<T>>(() -> new LnStcn<LnStrm<T>>(
+			new LnStrm<T>(() -> nextCell),
+			streamsCell.tail
+		    ))
+		);
+	    } else {
+		return new LnStcn<LnStrm<T>>(
+		    new LnStrm<T>(() -> nextCell),
+		    insertStream(new LnStrm<T>(() -> streamCell), streamsCell.tail, cmpr)
+		);
+	    }
 	});
     }
 //

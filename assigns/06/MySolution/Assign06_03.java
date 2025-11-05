@@ -11,11 +11,81 @@ import java.util.function.BiPredicate;
 import java.util.function.ToIntBiFunction;
 
 public class Assign06_03 {
-    public static void arrayQuickSort(T[] A, ToIntBiFunction<T,T> cmp) {
+    public static<T> void arrayQuickSort(T[] A, ToIntBiFunction<T,T> cmp) {
 	// Please implement standard array-based quickSort and make sure
 	// that equal elements are properly handled. In particular, your
 	// testing code should test your implementation on an array of 1M zeros!
+	if (A == null || A.length <= 1) {
+	    return;
+	}
+	quickSortHelper(A, 0, A.length - 1, cmp);
+    }
+
+    private static<T> void quickSortHelper(T[] A, int low, int high, ToIntBiFunction<T,T> cmp) {
+	if (low >= high) {
+	    return;
+	}
+
+	int[] pivots = threeWayPartition(A, low, high, cmp);
+
+	quickSortHelper(A, low, pivots[0] - 1, cmp);
+	quickSortHelper(A, pivots[1] + 1, high, cmp);
+    }
+
+    private static<T> int[] threeWayPartition(T[] A, int low, int high, ToIntBiFunction<T,T> cmp) {
+	int mid = low + (high - low) / 2;
+	T pivot = medianOfThree(A, low, mid, high, cmp);
+
+	int lt = low;
+	int gt = high;
+	int i = low;
+
+	while (i <= gt) {
+	    int cmpResult = cmp.applyAsInt(A[i], pivot);
+
+	    if (cmpResult < 0) {
+		swap(A, lt, i);
+		lt++;
+		i++;
+	    } else if (cmpResult > 0) {
+		swap(A, i, gt);
+		gt--;
+	    } else {
+		i++;
+	    }
+	}
+
+	return new int[]{lt, gt};
+    }
+
+    private static<T> T medianOfThree(T[] A, int low, int mid, int high, ToIntBiFunction<T,T> cmp) {
+	T a = A[low];
+	T b = A[mid];
+	T c = A[high];
+
+	if (cmp.applyAsInt(a, b) < 0) {
+	    if (cmp.applyAsInt(b, c) < 0) {
+		return b;
+	    } else if (cmp.applyAsInt(a, c) < 0) {
+		return c;
+	    } else {
+		return a;
+	    }
+	} else {
+	    if (cmp.applyAsInt(a, c) < 0) {
+		return a;
+	    } else if (cmp.applyAsInt(b, c) < 0) {
+		return c;
+	    } else {
+		return b;
+	    }
+	}
+    }
+
+    private static<T> void swap(T[] A, int i, int j) {
+	T temp = A[i];
+	A[i] = A[j];
+	A[j] = temp;
     }
 
 } // end of [public class Assign06_03{...}]
-
