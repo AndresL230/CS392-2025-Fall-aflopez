@@ -41,11 +41,65 @@ public class Quiz02_01 {
 	// This method finds the leftmost longest ascending subsequence
 	// of xs. Note that the returned list consists of the indices of
 	// the elements of the subsequence.
-	return null;
+
+	// TIME COMPLEXITY ANALYSIS:
+	// This implementation runs in O(n^2) time where n = xs.length().
+	// - The outer loop iterates n times (lines with i index)
+	// - The inner loop iterates up to i times for each outer iteration
+	// - Total comparisons: 1 + 2 + 3 + ... + n = n(n+1)/2 = O(n^2)
+	// - The reconstruction loop runs in O(n) time
+	// - Space complexity: O(n) for the dp and prev arrays
+
+	int n = xs.length();
+	if (n == 0) {
+	    return new FnList<Integer>();
+	}
+
+	int[] dp = new int[n];
+	int[] prev = new int[n];
+
+	for (int i = 0; i < n; i++) {
+	    dp[i] = 1;
+	    prev[i] = -1;
+	}
+
+	for (int i = 1; i < n; i++) {
+	    for (int j = 0; j < i; j++) {
+		if (xs.getAt(j).compareTo(xs.getAt(i)) < 0) {
+		    if (dp[j] + 1 > dp[i]) {
+			dp[i] = dp[j] + 1;
+			prev[i] = j;
+		    }
+		}
+	    }
+	}
+
+	int maxLen = 0;
+	int maxIdx = 0;
+	for (int i = 0; i < n; i++) {
+	    if (dp[i] > maxLen) {
+		maxLen = dp[i];
+		maxIdx = i;
+	    }
+	}
+
+	FnList<Integer> result = new FnList<Integer>();
+	int idx = maxIdx;
+	while (idx != -1) {
+	    result = new FnList<Integer>(idx, result);
+	    idx = prev[idx];
+	}
+
+	return result;
     }
     public static void main (String[] args) {
 	// HX-2025-11-19:
 	// Please write minimal testing code for FnA1szLongestMonoSubsequence
-	return /*void*/;
+		Integer[] arr = {1, 2, 1, 2, 3, 1, 2, 3, 4};
+		FnA1sz<Integer> xs = new FnA1sz<Integer>(arr);
+		FnList<Integer> result = FnA1szLongestMonoSubsequence(xs);
+		result.System$out$print();
+		
+		return /*void*/;
     }
 }
