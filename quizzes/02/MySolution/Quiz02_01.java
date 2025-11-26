@@ -42,13 +42,9 @@ public class Quiz02_01 {
 	// of xs. Note that the returned list consists of the indices of
 	// the elements of the subsequence.
 
-	// TIME COMPLEXITY ANALYSIS:
-	// This implementation runs in O(n^2) time where n = xs.length().
-	// - The outer loop iterates n times (lines with i index)
-	// - The inner loop iterates up to i times for each outer iteration
-	// - Total comparisons: 1 + 2 + 3 + ... + n = n(n+1)/2 = O(n^2)
-	// - The reconstruction loop runs in O(n) time
-	// - Space complexity: O(n) for the dp and prev arrays
+	/*This impplementation runs in O(n^2) time as n = xs.length() as we 
+	have loops iterating through the full length and a loop within that
+	looping through the length for each iteration of the previous loop. */
 
 	int n = xs.length();
 	if (n == 0) {

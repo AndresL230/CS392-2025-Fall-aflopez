@@ -162,16 +162,16 @@ public class Quiz02_06 {
     public static void main (String[] args) {
 	// Please add minimal testing code for reroot()
 	// Please add minimal testing code for insert()
-	Quiz02_06 tree = new Quiz02_06();
-	tree.insert(5);
-	tree.insert(3);
-	tree.insert(7);
-	tree.insert(1);
-	tree.insert(9);
-	System.out.println("Root key: " + tree.root.key);
-	System.out.println("Tree size: " + tree.root.size);
-	tree.reroot();
-	System.out.println("New root key after reroot: " + tree.root.key);
-	return /*void*/;
+		Quiz02_06 tree = new Quiz02_06();
+		tree.insert(5);
+		tree.insert(3);
+		tree.insert(7);
+		tree.insert(1);
+		tree.insert(9);
+		System.out.println("Root key: " + tree.root.key);
+		System.out.println("Tree size: " + tree.root.size);
+		tree.reroot();
+		System.out.println("New root key after reroot: " + tree.root.key);
+		return /*void*/;
     }
 }

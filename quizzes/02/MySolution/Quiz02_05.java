@@ -67,6 +67,13 @@ public class Quiz02_05 {
 	// height? Please give a brief explanation on your implementation
 	// strategy.
 
+    /*The implementation creates a complete binary tree with all black 
+    nodes to minimize black height. Each level is fully filled and every node
+    is black, maximizing nodes per black height. Black height counts black nodes
+    on root-to-leaf paths excluding the node itself. This structure adds one black
+    node per level with no red nodes, making the tree as compact as possible. For 1 
+    million nodes, the minimal black height is about 20, satisfying all red-black tree rules.
+    */
         int[] counter = {0};
         int blackHeight = (int) Math.ceil(Math.log(1000001) / Math.log(2));
         return buildMinBlackHeightRBT(blackHeight, counter, 1000000);

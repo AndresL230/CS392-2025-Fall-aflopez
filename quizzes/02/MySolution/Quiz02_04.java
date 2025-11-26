@@ -8,42 +8,42 @@ import Library.LnStrm.*;
 //
 public class Quiz02_04 {
     public class AVLnode {
-	int key;
-	AVLnode lchild;
-	AVLnode rchild;
-    }
-    //
-    // HX: 10 points for this one
-    // HX: If your implementation only
-    // visit each node in [avl] at most once,
-    // then it will be rewarded with some bonus
-    // points (up to 20 bonus points).
-    // For instance, if you compute the size of
-    // height of a tree, then you already visit
-    // each node once.
-    //
-    public static boolean isAVL (AVLnode avl) {
-	// HX: Please implement a function that
-	// tests whether a given AVLnode is a valid
-	// AVL tree. If it is unclear what an
-	// AVL tree, you can readily find it on-line
-	// Note that you are not asked to check if avl is
-	// a binary search tree in this case.
-	return checkAVL(avl) != -1;
+		int key;
+		AVLnode lchild;
+		AVLnode rchild;
+	}
+		//
+		// HX: 10 points for this one
+		// HX: If your implementation only
+		// visit each node in [avl] at most once,
+		// then it will be rewarded with some bonus
+		// points (up to 20 bonus points).
+		// For instance, if you compute the size of
+		// height of a tree, then you already visit
+		// each node once.
+		//
+	public static boolean isAVL (AVLnode avl) {
+		// HX: Please implement a function that
+		// tests whether a given AVLnode is a valid
+		// AVL tree. If it is unclear what an
+		// AVL tree, you can readily find it on-line
+		// Note that you are not asked to check if avl is
+		// a binary search tree in this case.
+		return checkAVL(avl) != -1;
     }
 
     private static int checkAVL(AVLnode node) {
-	if (node == null) return 0;
+		if (node == null) return 0;
 
-	int leftHeight = checkAVL(node.lchild);
-	if (leftHeight == -1) return -1;
+		int leftHeight = checkAVL(node.lchild);
+		if (leftHeight == -1) return -1;
 
-	int rightHeight = checkAVL(node.rchild);
-	if (rightHeight == -1) return -1;
+		int rightHeight = checkAVL(node.rchild);
+		if (rightHeight == -1) return -1;
 
-	if (Math.abs(leftHeight - rightHeight) > 1) return -1;
+		if (Math.abs(leftHeight - rightHeight) > 1) return -1;
 
-	return 1 + Math.max(leftHeight, rightHeight);
+		return 1 + Math.max(leftHeight, rightHeight);
     }
     //
     // HX: 20 points
@@ -52,6 +52,18 @@ public class Quiz02_04 {
     // of maximal height (not minimal height). Note that this
     // is different from what is asked in Quiz02_05.
     //
+
+	/*
+	The implementation builds a Fibonacci tree to achieve maximal AVL height because 
+	such trees represent the sparsest balanced structure. Each subtree is also a Fibonacci tree, 
+	and the number of nodes at height h equals Fib(h+2) - 1. By assigning the left subtree fewer 
+	nodes and the right subtree slightly more, it maintains the AVL height-balance with minimal 
+	nodes per level. This approach maximizes height for a given node count—about 28-29 for 
+	1 million nodes. In short, Fibonacci trees are the tallest AVL trees possible..
+	 */
+
+
+
     public static AVLnode genAVLBST() {
 	// Please genenerate a binary search RBT that
 	// contains exactly 1 million keys: 0, 1, 2, ..., 999999
