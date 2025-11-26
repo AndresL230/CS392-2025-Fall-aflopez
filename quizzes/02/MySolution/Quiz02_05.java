@@ -6,10 +6,10 @@
 //
 public class Quiz02_05 {
     public class RBTnode {
-	int key;
-	int color; // Red = 0; Black = 1
-	RBTnode lchild;
-	RBTnode rchild;
+        int key;
+        int color; // Red = 0; Black = 1
+        RBTnode lchild;
+        RBTnode rchild;
     }
     //
     // HX: 10 points for this one
@@ -27,31 +27,31 @@ public class Quiz02_05 {
 	// red-black tree. If it is unclear what a
 	// red-black tree, you can readily find it on-line
 	// Note that you are not asked to check if rbt is
-	// a binary search tree in this case.
-	if (rbt == null) return true;
-	if (rbt.color != 1) return false;
-	return checkRBT(rbt) != -1;
+    // a binary search tree in this case.
+        if (rbt == null) return true;
+        if (rbt.color != 1) return false;
+        return checkRBT(rbt) != -1;
     }
 
     private static int checkRBT(RBTnode node) {
-	if (node == null) return 1;
+        if (node == null) return 1;
 
-	if (node.color == 0) {
-	    if ((node.lchild != null && node.lchild.color == 0) ||
-		(node.rchild != null && node.rchild.color == 0)) {
-		return -1;
-	    }
-	}
+        if (node.color == 0) {
+            if ((node.lchild != null && node.lchild.color == 0) ||
+            (node.rchild != null && node.rchild.color == 0)) {
+            return -1;
+            }
+        }
 
-	int leftBlackHeight = checkRBT(node.lchild);
-	if (leftBlackHeight == -1) return -1;
+        int leftBlackHeight = checkRBT(node.lchild);
+        if (leftBlackHeight == -1) return -1;
 
-	int rightBlackHeight = checkRBT(node.rchild);
-	if (rightBlackHeight == -1) return -1;
+        int rightBlackHeight = checkRBT(node.rchild);
+        if (rightBlackHeight == -1) return -1;
 
-	if (leftBlackHeight != rightBlackHeight) return -1;
+        if (leftBlackHeight != rightBlackHeight) return -1;
 
-	return leftBlackHeight + (node.color == 1 ? 1 : 0);
+        return leftBlackHeight + (node.color == 1 ? 1 : 0);
     }
     //
     // HX: 20 points
@@ -67,30 +67,30 @@ public class Quiz02_05 {
 	// height? Please give a brief explanation on your implementation
 	// strategy.
 
-	int[] counter = {0};
-	int blackHeight = (int) Math.ceil(Math.log(1000001) / Math.log(2));
-	return buildMinBlackHeightRBT(blackHeight, counter, 1000000);
-    }
+        int[] counter = {0};
+        int blackHeight = (int) Math.ceil(Math.log(1000001) / Math.log(2));
+        return buildMinBlackHeightRBT(blackHeight, counter, 1000000);
+        }
 
-    private static RBTnode buildMinBlackHeightRBT(int bh, int[] counter, int maxNodes) {
-	if (bh == 0 || counter[0] >= maxNodes) return null;
+        private static RBTnode buildMinBlackHeightRBT(int bh, int[] counter, int maxNodes) {
+        if (bh == 0 || counter[0] >= maxNodes) return null;
 
-	RBTnode node = new Quiz02_05().new RBTnode();
-	node.color = 1;
+        RBTnode node = new Quiz02_05().new RBTnode();
+        node.color = 1;
 
-	node.lchild = buildMinBlackHeightRBT(bh - 1, counter, maxNodes);
-	if (counter[0] >= maxNodes) return node;
-	node.key = counter[0]++;
-	node.rchild = buildMinBlackHeightRBT(bh - 1, counter, maxNodes);
+        node.lchild = buildMinBlackHeightRBT(bh - 1, counter, maxNodes);
+        if (counter[0] >= maxNodes) return node;
+        node.key = counter[0]++;
+        node.rchild = buildMinBlackHeightRBT(bh - 1, counter, maxNodes);
 
-	return node;
+        return node;
     }
     public static void main (String[] args) {
 	// Please add minimal testing code for isRBT()
 	// Please add minimal testing code for genRedBlackBST()
-	RBTnode tree = genRedBLackBST();
-	System.out.println("Is RBT: " + isRBT(tree));
-	System.out.println("Black Height: " + checkRBT(tree));
+        RBTnode tree = genRedBLackBST();
+        System.out.println("Is RBT: " + isRBT(tree));
+        System.out.println("Black Height: " + checkRBT(tree));
 	return /*void*/;
     }
 }
