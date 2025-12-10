@@ -88,4 +88,37 @@ public class Assign06_03 {
 	A[j] = temp;
     }
 
+    public static void main(String[] args) {
+	System.out.println("Testing arrayQuickSort:");
+
+	Integer[] test1 = {5, 2, 8, 1, 9, 3, 7, 4, 6};
+	arrayQuickSort(test1, (a, b) -> a.compareTo(b));
+	System.out.print("Sorted array: ");
+	for (int i : test1) System.out.print(i + " ");
+	System.out.println();
+
+	Integer[] zeros = new Integer[1000000];
+	for (int i = 0; i < zeros.length; i++) {
+	    zeros[i] = 0;
+	}
+	System.out.println("Sorting 1M zeros...");
+	arrayQuickSort(zeros, (a, b) -> a.compareTo(b));
+	System.out.println("Successfully sorted 1M zeros");
+
+	Random rand = new Random();
+	Integer[] randomArray = new Integer[10000];
+	for (int i = 0; i < randomArray.length; i++) {
+	    randomArray[i] = rand.nextInt(1000);
+	}
+	arrayQuickSort(randomArray, (a, b) -> a.compareTo(b));
+	boolean sorted = true;
+	for (int i = 1; i < randomArray.length; i++) {
+	    if (randomArray[i] < randomArray[i-1]) {
+		sorted = false;
+		break;
+	    }
+	}
+	System.out.println("10K random integers sorted correctly: " + sorted);
+    }
+
 } // end of [public class Assign06_03{...}]

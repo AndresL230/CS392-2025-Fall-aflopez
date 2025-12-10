@@ -42,7 +42,7 @@ public class Assign03_03<T> extends MyQueueBase<T> {
     }
     
     private void transferRearToFront() {
-		while (!rea1r.isEmpty()) {
+		while (!rear.isEmpty()) {
 			T item = rear.pop$raw();
 			frnt.push$raw(item);
 		}

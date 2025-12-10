@@ -27,19 +27,20 @@ public class Assign06_02 {
 	    return new LnStcn<Integer>();
 	}
 
-	PairWithSum first = extractPair(stcn.head);
-	LnStcn<FnTupl2<Integer,Integer>> next = stcn.tail.eval0();
+	PairWithSum first = extractPair(stcn.hd());
+	LnStrm<FnTupl2<Integer,Integer>> tailStream = stcn.tl();
+	LnStcn<FnTupl2<Integer,Integer>> next = tailStream.eval0();
 
 	if (next.nilq()) {
 	    return new LnStcn<Integer>();
 	}
 
-	PairWithSum second = extractPair(next.head);
+	PairWithSum second = extractPair(next.hd());
 
 	if (first.sum == second.sum) {
-	    return new LnStcn<Integer>(first.sum, ramanujanNumbers());
+	    return new LnStcn<Integer>(first.sum, new LnStrm<>(() -> findRamanujan(next.tl())));
 	} else {
-	    return findRamanujan(stcn.tail);
+	    return findRamanujan(next.tl());
 	}
     }
 
@@ -119,7 +120,18 @@ public class Assign06_02 {
     }
 
     public static void main(String[] args) {
-	return; // Please provide some minimal testing code
+	System.out.println("Testing Ramanujan Numbers:");
+
+	LnStrm<Integer> ramanujan = ramanujanNumbers();
+
+	System.out.println("First 10 Ramanujan numbers:");
+	for (int i = 0; i < 10; i++) {
+	    LnStcn<Integer> cell = ramanujan.eval0();
+	    if (!cell.nilq()) {
+		System.out.println((i+1) + ": " + cell.hd());
+		ramanujan = cell.tl();
+	    }
+	}
     }
 
 } // end of [public class Assign06_02{...}]
