@@ -64,6 +64,10 @@ class GameState implements FnGtree<FnList<Term>> {
 	return terms;
     }
 
+    public int priority() {
+	return 0;
+    }
+
     public FnList<FnGtree<FnList<Term>>> children() {
 	// Generate all possible next states by combining two terms
 	return generateChildren(terms);

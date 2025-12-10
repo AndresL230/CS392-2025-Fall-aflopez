@@ -89,7 +89,7 @@ public class Assign08_02<V>
 	    if (table[index] == null) {
 		return -1; // key not found
 	    }
-	    if (!deleted[index] && table[index].sub0.equals(key)) {
+	    if (!deleted[index] && table[index].getSub0().equals(key)) {
 		return index; // key found
 	    }
 	    i++;
@@ -111,7 +111,7 @@ public class Assign08_02<V>
 	    if (deleted[index] && firstDeleted == -1) {
 		firstDeleted = index; // remember first deleted slot
 	    }
-	    if (!deleted[index] && table[index].sub0.equals(key)) {
+	    if (!deleted[index] && table[index].getSub0().equals(key)) {
 		return index; // key already exists
 	    }
 	    i++;
@@ -125,7 +125,7 @@ public class Assign08_02<V>
 	if (index == -1) {
 	    return null;
 	}
-	return table[index].sub1;
+	return table[index].getSub1();
     }
 
     @Override
@@ -149,9 +149,9 @@ public class Assign08_02<V>
 	    throw new RuntimeException("Hash table is full");
 	}
 
-	if (table[index] != null && !deleted[index] && table[index].sub0.equals(key)) {
+	if (table[index] != null && !deleted[index] && table[index].getSub0().equals(key)) {
 	    // Key already exists, prepend value to its list (LIFO)
-	    table[index].sub1 = cons(val, table[index].sub1);
+	    table[index].setSub1(cons(val, table[index].getSub1()));
 	} else {
 	    // New key, create new entry
 	    FnList<V> valueList = cons(val, nil());
@@ -189,7 +189,7 @@ public class Assign08_02<V>
 	    return null;
 	}
 
-	FnList<V> values = table[index].sub1;
+	FnList<V> values = table[index].getSub1();
 	deleted[index] = true; // mark as deleted
 	numKeys--;
 	return values;
@@ -213,8 +213,8 @@ public class Assign08_02<V>
     public void foritm(BiConsumer<? super String, ? super V> work) {
 	for (int i = 0; i < capacity; i++) {
 	    if (table[i] != null && !deleted[i]) {
-		String key = table[i].sub0;
-		FnList<V> values = table[i].sub1;
+		String key = table[i].getSub0();
+		FnList<V> values = table[i].getSub1();
 
 		// Process each key-value pair
 		values.foritm(val -> work.accept(key, val));

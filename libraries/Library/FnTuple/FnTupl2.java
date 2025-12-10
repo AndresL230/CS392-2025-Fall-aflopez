@@ -8,6 +8,18 @@ public class FnTupl2<T0,T1> {
 	sub0 = x0; sub1 = x1;
     }
 
+    public T0 getSub0() {
+	return sub0;
+    }
+    public T1 getSub1() {
+	return sub1;
+    }
+    public void setSub0(T0 x0) {
+	sub0 = x0;
+    }
+    public void setSub1(T1 x1) {
+	sub1 = x1;
+    }
     public void System$out$print() {
 	FnTupl2Util.System$out$print(this);
     }

@@ -113,8 +113,8 @@ public class Assign08_01<V>
 
 	while (chain.consq1()) {
 	    FnTupl2<String, FnList<V>> entry = chain.hd1();
-	    if (entry.sub0.equals(key)) {
-		return entry.sub1;
+	    if (entry.getSub0().equals(key)) {
+		return entry.getSub1();
 	    }
 	    chain = chain.tl1();
 	}
@@ -144,9 +144,9 @@ public class Assign08_01<V>
 	LnList<FnTupl2<String, FnList<V>>> current = chain;
 	while (current.consq1()) {
 	    FnTupl2<String, FnList<V>> entry = current.hd1();
-	    if (entry.sub0.equals(key)) {
+	    if (entry.getSub0().equals(key)) {
 		// Key exists, prepend value to its list (LIFO)
-		entry.sub1 = cons(val, entry.sub1);
+		entry.setSub1(cons(val, entry.getSub1()));
 		return;
 	    }
 	    current = current.tl1();
@@ -184,9 +184,9 @@ public class Assign08_01<V>
 
 	while (chain.consq1()) {
 	    FnTupl2<String, FnList<V>> entry = chain.hd1();
-	    if (entry.sub0.equals(key)) {
+	    if (entry.getSub0().equals(key)) {
 		// Found the key, remove it
-		FnList<V> values = entry.sub1;
+		FnList<V> values = entry.getSub1();
 
 		if (prev == null) {
 		    // Remove from head
@@ -226,8 +226,8 @@ public class Assign08_01<V>
 	    LnList<FnTupl2<String, FnList<V>>> chain = table[i];
 	    while (chain.consq1()) {
 		FnTupl2<String, FnList<V>> entry = chain.hd1();
-		String key = entry.sub0;
-		FnList<V> values = entry.sub1;
+		String key = entry.getSub0();
+		FnList<V> values = entry.getSub1();
 
 		// Process each key-value pair
 		values.foritm(val -> work.accept(key, val));
