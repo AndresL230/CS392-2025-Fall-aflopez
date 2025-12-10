@@ -7,7 +7,11 @@ Please state the status of this question:
 2. Solved with testing?
 3. Solved without testing?
 If solved, please BRIEFLY explain your strategy.
-  
+
+2. Solved with testing.
+Uses backward DP with tailLens array to compute longest subsequence from each position,
+then greedily selects leftmost valid indices. O(n^2) time complexity.
+
 ############################################################
 
 Quiz02_02: 50 points
@@ -18,6 +22,10 @@ Please state the status of this question:
 3. Solved without testing?
 If solved, please BRIEFLY explain your strategy.
 
+2. Solved with testing.
+Odd-even sorting network using compare-and-swap commands. Builds tree of swap operations
+without recursion, following Quiz01_03 pattern scaled for up to 1000 elements.
+
 ############################################################
 
 Quiz02_03: 50 points
@@ -27,6 +35,10 @@ Please state the status of this question:
 2. Solved with testing?
 3. Solved without testing?
 If solved, please BRIEFLY explain your strategy.
+
+2. Solved with testing.
+Builds FnGtree where each node is a Sudoku state and children are valid number placements.
+Uses DFirstEnumerate/BFirstEnumerate from FnGtree to search for solved puzzles.
 
 ############################################################
 
@@ -45,6 +57,11 @@ Please state the status of this question:
 3. Solved without testing?
 If solved, please BRIEFLY explain your strategy.
 
+2. Solved with testing.
+isAVL: Single-pass recursive check that returns height or -1 if invalid, visits each node once.
+genAVLBST: Builds Fibonacci tree pattern where one subtree has minimum nodes for AVL balance,
+maximizing height for given node count.
+
 ############################################################
 
 Quiz02_05:
@@ -56,6 +73,8 @@ Please state the status of this question:
 3. Solved without testing?
 If solved, please BRIEFLY explain your strategy.
 
+1. Incomplete
+
 ############################################################
 
 Quiz02_06: 50 points
@@ -65,5 +84,9 @@ Please state the status of this question:
 2. Solved with testing?
 3. Solved without testing?
 If solved, please BRIEFLY explain your strategy.
+
+2. Solved with testing.
+reroot: Randomly selects node by index, performs rotations to move it to root position.
+insert: Standard BST insertion, finds position via traversal, updates size fields along path.
 
 ############################################################

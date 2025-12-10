@@ -41,61 +41,60 @@ public class Quiz02_01 {
 	// This method finds the leftmost longest ascending subsequence
 	// of xs. Note that the returned list consists of the indices of
 	// the elements of the subsequence.
-
-	/*This impplementation runs in O(n^2) time as n = xs.length() as we 
-	have loops iterating through the full length and a loop within that
-	looping through the length for each iteration of the previous loop. */
-
-	int n = xs.length();
-	if (n == 0) {
-	    return new FnList<Integer>();
+	if (xs == null || xs.length() == 0) {
+	    return FnListSUtil.nil();
 	}
-
-	int[] dp = new int[n];
-	int[] prev = new int[n];
-
-	for (int i = 0; i < n; i++) {
-	    dp[i] = 1;
-	    prev[i] = -1;
-	}
-
-	for (int i = 1; i < n; i++) {
-	    for (int j = 0; j < i; j++) {
-		if (xs.getAt(j).compareTo(xs.getAt(i)) < 0) {
-		    if (dp[j] + 1 > dp[i]) {
-			dp[i] = dp[j] + 1;
-			prev[i] = j;
-		    }
+	final int n = xs.length();
+	final int[] tailLens = new int[n];
+	for (int i = n - 1; i >= 0; i -= 1) {
+	    tailLens[i] = 1;
+	    final T cur = xs.getAt(i);
+	    for (int j = i + 1; j < n; j += 1) {
+		final T nxt = xs.getAt(j);
+		if (cur.compareTo(nxt) <= 0) {
+		    tailLens[i] = Math.max(tailLens[i], 1 + tailLens[j]);
 		}
 	    }
 	}
-
-	int maxLen = 0;
-	int maxIdx = 0;
-	for (int i = 0; i < n; i++) {
-	    if (dp[i] > maxLen) {
-		maxLen = dp[i];
-		maxIdx = i;
+	// HX-2025-11-19: Each ordered pair (i, j) with i < j is inspected once,
+	// so the nested loop performs O(n^2) comparisons; the remaining passes are linear.
+	int targetLen = 0;
+	for (int len : tailLens) {
+	    if (len > targetLen) {
+		targetLen = len;
 	    }
 	}
 
-	FnList<Integer> result = new FnList<Integer>();
-	int idx = maxIdx;
-	while (idx != -1) {
-	    result = new FnList<Integer>(idx, result);
-	    idx = prev[idx];
+	final int[] picks = new int[targetLen];
+	int remaining = targetLen;
+	int taken = 0;
+	T lastValue = null;
+	boolean hasLast = false;
+
+	for (int i = 0; i < n && remaining > 0; i += 1) {
+	    final T cur = xs.getAt(i);
+	    if ((!hasLast || lastValue.compareTo(cur) <= 0) && tailLens[i] == remaining) {
+		picks[taken] = i;
+		taken += 1;
+		lastValue = cur;
+		hasLast = true;
+		remaining -= 1;
+	    }
 	}
 
+	FnList<Integer> result = FnListSUtil.nil();
+	for (int k = taken - 1; k >= 0; k -= 1) {
+	    result = FnListSUtil.cons(picks[k], result);
+	}
 	return result;
     }
     public static void main (String[] args) {
 	// HX-2025-11-19:
 	// Please write minimal testing code for FnA1szLongestMonoSubsequence
-		Integer[] arr = {1, 2, 1, 2, 3, 1, 2, 3, 4};
-		FnA1sz<Integer> xs = new FnA1sz<Integer>(arr);
-		FnList<Integer> result = FnA1szLongestMonoSubsequence(xs);
-		result.System$out$print();
-		
-		return /*void*/;
+	Integer[] sample = {1,2,1,2,3,1,2,3,4};
+	FnList<Integer> result = FnA1szLongestMonoSubsequence(new FnA1sz<Integer>(sample));
+	result.System$out$print();
+	System.out.println();
+	return /*void*/;
     }
 }

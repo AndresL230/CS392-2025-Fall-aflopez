@@ -8,13 +8,12 @@
 // swapping array elements.
 //
 public class Quiz02_02 {
-    private static class Range {
-		int left;
-		int right;
-		Range(int l, int r) {
-			left = l;
-			right = r;
-		}
+    private static <T extends Comparable<T>> void cmpAndSwp(T[] arr, int i, int j) {
+        if (i < arr.length && j < arr.length && arr[i].compareTo(arr[j]) > 0) {
+            T temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
     }
 
     public static<T extends Comparable<T>>void sort1000WithNoRecursion(T[] A) {
@@ -23,60 +22,40 @@ public class Quiz02_02 {
 	// Please implement a sorting algorithm
 	// WITHOUT recursion that can effectively
 	// sort A.
+	// Using odd-even sort network approach - tree of compare-and-swap commands
 
-		if (A == null || A.length <= 1) return;
+	if (A == null || A.length <= 1) return;
 
-		Range[] stack = new Range[1000];
-		int top = -1;
+	int n = A.length;
 
-		stack[++top] = new Range(0, A.length - 1);
+	// Odd-even sort network - builds a tree of swap commands without recursion
+	for (int gap = n / 2; gap > 0; gap /= 2) {
+	    for (int i = 0; i < n - gap; i++) {
+		cmpAndSwp(A, i, i + gap);
+	    }
 
-		while (top >= 0) {
-			Range current = stack[top--];
-			int left = current.left;
-			int right = current.right;
+	    for (int i = gap; i < n - gap; i++) {
+		cmpAndSwp(A, i, i + gap);
+	    }
+	}
 
-			if (left >= right) continue;
-
-			int pivotIndex = partition(A, left, right);
-
-			if (pivotIndex + 1 < right) {
-			stack[++top] = new Range(pivotIndex + 1, right);
-			}
-
-			if (left < pivotIndex - 1) {
-			stack[++top] = new Range(left, pivotIndex - 1);
-			}
-		}
+	// Final passes to ensure complete sorting
+	for (int pass = 0; pass < n; pass++) {
+	    for (int i = pass % 2; i < n - 1; i += 2) {
+		cmpAndSwp(A, i, i + 1);
+	    }
+	}
     }
 
-    private static <T extends Comparable<T>>int partition(T[] A, int left, int right) {
-		T pivot = A[right];
-		int i = left - 1;
-
-		for (int j = left; j < right; j++) {
-			if (A[j].compareTo(pivot) <= 0) {
-			i++;
-			T temp = A[i];
-			A[i] = A[j];
-			A[j] = temp;
-			}
-		}
-
-		T temp = A[i + 1];
-		A[i + 1] = A[right];
-		A[right] = temp;
-
-		return i + 1;
-    }
     public static void main (String[] args) {
 	// HX-2025-11-19:
-	// Please write minimal testing code for FnA1szLongestMonoSubsequence
-		Integer[] arr = {5, 2, 8, 1, 9, 3, 7, 4, 6};
-		sort1000WithNoRecursion(arr);
-		for (int i = 0; i < arr.length; i++) {
-			System.out.print(arr[i] + " ");
-		}
+	// Please write minimal testing code for sort1000WithNoRecursion
+	Integer[] arr = {5, 2, 8, 1, 9, 3, 7, 4, 6};
+	sort1000WithNoRecursion(arr);
+	for (int i = 0; i < arr.length; i++) {
+		System.out.print(arr[i] + " ");
+	}
+	System.out.println();
 	return /*void*/;
     }
 }

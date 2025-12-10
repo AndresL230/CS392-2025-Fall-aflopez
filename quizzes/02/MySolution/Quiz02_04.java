@@ -53,16 +53,9 @@ public class Quiz02_04 {
     // is different from what is asked in Quiz02_05.
     //
 
-	/*
-	The implementation builds a Fibonacci tree to achieve maximal AVL height because 
-	such trees represent the sparsest balanced structure. Each subtree is also a Fibonacci tree, 
-	and the number of nodes at height h equals Fib(h+2) - 1. By assigning the left subtree fewer 
-	nodes and the right subtree slightly more, it maintains the AVL height-balance with minimal 
-	nodes per level. This approach maximizes height for a given node count—about 28-29 for 
-	1 million nodes. In short, Fibonacci trees are the tallest AVL trees possible..
-	 */
-
-
+	// HX-2025-11-20: At each node, the tree is built with one subtree having the minimum
+	// nodes required to maintain AVL balance, creating a Fibonacci tree pattern. This yields
+	// the sparsest valid AVL structure, maximizing height for a given node count.
 
     public static AVLnode genAVLBST() {
 	// Please genenerate a binary search RBT that
