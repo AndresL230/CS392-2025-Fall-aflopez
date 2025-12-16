@@ -4,8 +4,8 @@
 // constructing a FnList of characters in pg2701.txt
 */
 
-import Library.FnList.*;
-import Library.LnStrm.*;
+import MyFinalLib.FnList.*;
+import MyFinalLib.LnStrm.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
