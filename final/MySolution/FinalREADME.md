@@ -1,4 +1,4 @@
-IMPLEMENTATION CHANGES - CS392 FINAL EXAM
+Implementation Notes and Changes - CS392 FINAL EXAM
 
 Library Changes:
 - Changed select package declarations from Library.* to MyFinalLib.* in MyFinalLib directory
